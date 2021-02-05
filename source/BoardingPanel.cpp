@@ -35,6 +35,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "System.h"
 #include "text/truncate.hpp"
 #include "UI.h"
+#include "Personality.h"
 
 #include <algorithm>
 
@@ -164,6 +165,8 @@ void BoardingPanel::Draw()
 		info.SetCondition("can attack");
 	if(CanAttack())
 		info.SetCondition("can defend");
+	if(CanRepair())
+		info.SetCondition("can repair");
 	
 	// This should always be true, but double check.
 	int crew = 0;
@@ -288,6 +291,17 @@ bool BoardingPanel::KeyDown(SDL_Keycode key, Uint16 mod, const Command &command,
 			double maximumScroll = 20. * selected;
 			scroll = max(minimumScroll, min(maximumScroll, scroll));
 		}
+	}
+	else if(key == 'r' && CanRepair())
+	{
+		hasRepaired = true;
+		
+		victim->RestoreToDisableThreshold();
+		
+		Personality replacement;
+		replacement.FromRaw(8193); // Number correlates to pacifist and fleeing
+		
+		victim->SetPersonality(replacement);
 	}
 	else if(key == 'c' && CanCapture())
 	{
@@ -461,7 +475,7 @@ bool BoardingPanel::CanExit() const
 
 // Check if you can take the given plunder item.
 bool BoardingPanel::CanTake() const
-{
+{	
 	// If you ship or the other ship has been captured:
 	if(!you->IsYours())
 		return false;
@@ -472,7 +486,7 @@ bool BoardingPanel::CanTake() const
 	if(static_cast<unsigned>(selected) >= plunder.size())
 		return false;
 	
-	return plunder[selected].CanTake(*you);
+	return plunder[selected].CanTake(*you) && !hasRepaired;
 }
 
 
@@ -492,7 +506,7 @@ bool BoardingPanel::CanCapture() const
 	if(!victim->IsCapturable())
 		return false;
 	
-	return (!victim->RequiredCrew() || you->Crew() > 1);
+	return (!victim->RequiredCrew() || you->Crew() > 1) && !hasRepaired;
 }
 
 
@@ -501,6 +515,13 @@ bool BoardingPanel::CanCapture() const
 bool BoardingPanel::CanAttack() const
 {
 	return isCapturing;
+}
+
+
+
+bool BoardingPanel::CanRepair() const
+{
+	return !isCapturing && !hasRepaired;
 }
 
 

@@ -710,6 +710,11 @@ interface "boarding"
 		center 210 185
 		dimensions 80 30
 
+	active if "can repair"
+	button r "_Repair"
+		center -315 115
+		dimension 80 30
+
 
 
 # The top of the text panel is the planet dialog is at +70, and it is 500 x 260.

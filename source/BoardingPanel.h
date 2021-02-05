@@ -55,7 +55,8 @@ private:
 	bool CanCapture() const;
 	// Check if you are in the midst of hand to hand combat.
 	bool CanAttack() const;
-	
+	// Check if you can repair
+	bool CanRepair() const;
 	
 private:
 	// This class represents one item in the list of outfits you can plunder.
@@ -117,6 +118,7 @@ private:
 	bool playerDied = false;
 	bool isCapturing = false;
 	bool isFirstCaptureAction = true;
+	bool hasRepaired = false;
 	// Calculating the odds of combat success, and the expected casualties, is
 	// non-trivial. So, cache the results for all crew amounts up to full.
 	CaptureOdds attackOdds;

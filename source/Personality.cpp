@@ -139,6 +139,28 @@ void Personality::Save(DataWriter &out) const
 
 
 
+// This function is WILDLY UNSAFE. Use at own risk. (or if you're desperate, which is totally not me writing this right now)
+void Personality::FromRaw(int newFlags)
+{
+	flags = newFlags;
+}
+
+
+
+//void Personality::ParseString(const string token, bool remove)
+//{
+//	auto it = TOKEN.find(token);
+//	if(it != TOKEN.end())
+//	{
+//		if(remove)
+//			flags &= ~it->second;
+//		else
+//			flags |= it->second;
+//	}
+//}
+
+
+
 bool Personality::IsPacifist() const
 {
 	return flags & PACIFIST;

@@ -13,6 +13,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #ifndef PERSONALITY_H_
 #define PERSONALITY_H_
 
+#include <string>
 #include "Angle.h"
 #include "Point.h"
 
@@ -31,6 +32,8 @@ public:
 	
 	void Load(const DataNode &node);
 	void Save(DataWriter &out) const;
+	void FromRaw(const int);
+	//void ParseString(const std::string, bool remove);
 	
 	// Who a ship decides to attack:
 	bool IsPacifist() const;

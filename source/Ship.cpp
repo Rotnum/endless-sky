@@ -2152,7 +2152,7 @@ shared_ptr<Ship> Ship::Board(bool autoPlunder)
 		SetShipToAssist(shared_ptr<Ship>());
 		SetTargetShip(shared_ptr<Ship>());
 		bool helped = victim->isDisabled;
-		victim->hull = max(victim->hull, victim->MinimumHull());
+		victim->RestoreToDisableThreshold();
 		victim->isDisabled = false;
 		// Transfer some fuel if needed.
 		if(!victim->JumpsRemaining() && CanRefuel(*victim))
@@ -2597,6 +2597,13 @@ void Ship::Restore()
 	explosionRate = 0;
 	UnmarkForRemoval();
 	Recharge(true);
+}
+
+
+
+void Ship::RestoreToDisableThreshold()
+{
+	hull = max(hull, MinimumHull() + 5);
 }
 
 
