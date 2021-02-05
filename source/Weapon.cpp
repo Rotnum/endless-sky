@@ -162,6 +162,8 @@ void Weapon::LoadWeapon(const DataNode &node)
 				firingSlowing = value;
 			else if(key == "firing disruption")
 				firingDisruption = value;
+			else if(key == "firing malfunction")
+				firingMalfunction = value;
 			else if(key == "relative firing energy")
 				relativeFiringEnergy = value;
 			else if(key == "relative firing heat")
@@ -194,6 +196,8 @@ void Weapon::LoadWeapon(const DataNode &node)
 				damage[DISRUPTION_DAMAGE] = value;
 			else if(key == "slowing damage")
 				damage[SLOWING_DAMAGE] = value;
+			else if(key == "malfunction damage")
+				damage[MALFUNCTION_DAMAGE] = value;
 			else if(key == "relative shield damage")
 				damage[RELATIVE_SHIELD_DAMAGE] = value;
 			else if(key == "relative hull damage")

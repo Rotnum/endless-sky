@@ -1127,6 +1127,7 @@ void Ship::Place(Point position, Point velocity, Angle angle)
 	ionization = 0.;
 	disruption = 0.;
 	slowness = 0.;
+	malfunction = 0.;
 	shieldDelay = 0;
 	hullDelay = 0;
 	isInvisible = !HasSprite();
@@ -1321,6 +1322,8 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 		CreateSparks(visuals, "disruption spark", disruption * .1);
 	if(slowness)
 		CreateSparks(visuals, "slowing spark", slowness * .1);
+	if(malfunction)
+		CreateSparks(visuals, "malfunction spark", malfunction * (Crew() / 4));
 	// Jettisoned cargo effects (only for ships in the current system).
 	if(!jettisoned.empty() && !forget)
 	{
@@ -1331,7 +1334,7 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 	double slowMultiplier = 1. / (1. + slowness * .05);
 	
 	// Move the turrets.
-	if(!isDisabled)
+	if(!isDisabled && !pilotError)
 		armament.Aim(commands);
 	
 	if(!isInvisible)
@@ -1673,6 +1676,11 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 		else
 			Messages::Add("Your ship is moving erratically because you do not have enough crew to pilot it.");
 	}
+	else if((requiredCrew && static_cast<int>(Random::Int(1. + malfunction * 4.)) >= Crew()) || (malfunction >= 0.0001 && attributes.Get("automata")))
+	{
+		pilotError = 30;
+		pilotOkay = Random::Int(10);
+	}
 	else
 		pilotOkay = 30;
 	
@@ -1976,6 +1984,12 @@ void Ship::DoGeneration()
 		DoStatusEffect(isDisabled, slowness, slowingResistance, energy, slowingEnergy, fuel, slowingFuel, heat, slowingHeat);
 	}
 	
+	if(malfunction)
+	{
+		// Malfunction does not have resistances as it can be countered by simply having more crew
+		DoStatusEffect(isDisabled, malfunction, 0., energy, 0., fuel, 0., heat, 0.);
+	}
+
 	// When ships recharge, what actually happens is that they can exceed their
 	// maximum capacity for the rest of the turn, but must be clamped to the
 	// maximum here before they gain more. This is so that, for example, a ship
@@ -2634,6 +2648,7 @@ void Ship::Recharge(bool atSpaceport)
 	ionization = 0.;
 	disruption = 0.;
 	slowness = 0.;
+	malfunction = 0.;
 	shieldDelay = 0;
 	hullDelay = 0;
 }
@@ -3415,6 +3430,7 @@ void Ship::ExpendAmmo(const Weapon *weapon)
 	ionization += weapon->FiringIon();
 	disruption += weapon->FiringDisruption();
 	slowness += weapon->FiringSlowing();
+	malfunction += weapon->FiringMalfunction();
 }
 
 
@@ -3731,6 +3747,7 @@ int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distance
 	double ionDamage = weapon.IonDamage() * damageScaling / (1. + attributes.Get("ion protection"));
 	double disruptionDamage = weapon.DisruptionDamage() * damageScaling / (1. + attributes.Get("disruption protection"));
 	double slowingDamage = weapon.SlowingDamage() * damageScaling / (1. + attributes.Get("slowing protection"));
+	double malfunctionDamage = weapon.MalfunctionDamage() * damageScaling / (1. + attributes.Get("malfunction protection"));
 	double hitForce = weapon.HitForce() * damageScaling / (1. + attributes.Get("force protection"));
 	bool wasDisabled = IsDisabled();
 	bool wasDestroyed = IsDestroyed();
@@ -3761,6 +3778,7 @@ int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distance
 	ionization += ionDamage * leakage;
 	disruption += disruptionDamage * leakage;
 	slowness += slowingDamage * leakage;
+	malfunction += malfunctionDamage * leakage;
 	
 	if(hitForce)
 	{

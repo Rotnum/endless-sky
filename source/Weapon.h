@@ -96,6 +96,7 @@ public:
 	double FiringIon() const;
 	double FiringSlowing() const;
 	double FiringDisruption() const;
+	double FiringMalfunction() const;
 	
 	// Relative damage sustained on firing ship when weapon fired.
 	double RelativeFiringEnergy() const;
@@ -132,6 +133,7 @@ public:
 	double IonDamage() const;
 	double DisruptionDamage() const;
 	double SlowingDamage() const;
+	double MalfunctionDamage() const;
 	// Relative damage types:
 	double RelativeShieldDamage() const;
 	double RelativeHullDamage() const;
@@ -231,6 +233,7 @@ private:
 	double firingIon = 0.;
 	double firingSlowing = 0.;
 	double firingDisruption = 0.;
+	double firingMalfunction = 0.;
 	
 	double relativeFiringEnergy = 0.;
 	double relativeFiringHeat = 0.;
@@ -242,7 +245,7 @@ private:
 	double triggerRadius = 0.;
 	double blastRadius = 0.;
 	
-	static const int DAMAGE_TYPES = 14;
+	static const int DAMAGE_TYPES = 15;
 	static const int HIT_FORCE = 0;
 	// Normal damage types:
 	static const int SHIELD_DAMAGE = 1;
@@ -254,12 +257,13 @@ private:
 	static const int ION_DAMAGE = 6;
 	static const int DISRUPTION_DAMAGE = 7;
 	static const int SLOWING_DAMAGE = 8;
+	static const int MALFUNCTION_DAMAGE = 9;
 	// Relative damage types:
-	static const int RELATIVE_SHIELD_DAMAGE = 9;
-	static const int RELATIVE_HULL_DAMAGE = 10;
-	static const int RELATIVE_FUEL_DAMAGE = 11;
-	static const int RELATIVE_HEAT_DAMAGE = 12;
-	static const int RELATIVE_ENERGY_DAMAGE = 13;
+	static const int RELATIVE_SHIELD_DAMAGE = 10;
+	static const int RELATIVE_HULL_DAMAGE = 11;
+	static const int RELATIVE_FUEL_DAMAGE = 12;
+	static const int RELATIVE_HEAT_DAMAGE = 13;
+	static const int RELATIVE_ENERGY_DAMAGE = 14;
 	mutable double damage[DAMAGE_TYPES] = {};
 	
 	double piercing = 0.;
@@ -316,6 +320,7 @@ inline double Weapon::FiringShields() const { return firingShields; }
 inline double Weapon::FiringIon() const{ return firingIon; }
 inline double Weapon::FiringSlowing() const{ return firingSlowing; }
 inline double Weapon::FiringDisruption() const{ return firingDisruption; }
+inline double Weapon::FiringMalfunction() const{ return firingMalfunction; }
 
 inline double Weapon::RelativeFiringEnergy() const{ return relativeFiringEnergy; }
 inline double Weapon::RelativeFiringHeat() const{ return relativeFiringHeat; }
@@ -344,6 +349,7 @@ inline double Weapon::EnergyDamage() const { return TotalDamage(ENERGY_DAMAGE); 
 inline double Weapon::IonDamage() const { return TotalDamage(ION_DAMAGE); }
 inline double Weapon::DisruptionDamage() const { return TotalDamage(DISRUPTION_DAMAGE); }
 inline double Weapon::SlowingDamage() const { return TotalDamage(SLOWING_DAMAGE); }
+inline double Weapon::MalfunctionDamage() const { return TotalDamage(MALFUNCTION_DAMAGE); }
 
 inline double Weapon::RelativeShieldDamage() const { return TotalDamage(RELATIVE_SHIELD_DAMAGE); }
 inline double Weapon::RelativeHullDamage() const { return TotalDamage(RELATIVE_HULL_DAMAGE); }
