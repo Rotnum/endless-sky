@@ -32,8 +32,7 @@ public:
 	
 	void Load(const DataNode &node);
 	void Save(DataWriter &out) const;
-	void FromRaw(const int);
-	//void ParseString(const std::string, bool remove);
+	void ParseString(const std::string, bool remove);
 	
 	// Who a ship decides to attack:
 	bool IsPacifist() const;

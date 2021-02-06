@@ -299,7 +299,8 @@ bool BoardingPanel::KeyDown(SDL_Keycode key, Uint16 mod, const Command &command,
 		victim->RestoreToDisableThreshold();
 		
 		Personality replacement;
-		replacement.FromRaw(8193); // Number correlates to pacifist and fleeing
+		replacement.ParseString("fleeing", false);
+		replacement.ParseString("pacifist", false);
 		
 		victim->SetPersonality(replacement);
 	}
