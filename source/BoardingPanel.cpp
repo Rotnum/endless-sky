@@ -298,11 +298,16 @@ bool BoardingPanel::KeyDown(SDL_Keycode key, Uint16 mod, const Command &command,
 		
 		victim->RestoreToDisableThreshold();
 		
-		Personality replacement;
-		replacement.ParseString("fleeing", false);
-		replacement.ParseString("pacifist", false);
-		
-		victim->SetPersonality(replacement);
+		if(!victim->Attributes().Get("automaton"))
+		{
+			victim->GetGovernment()->Offend(ShipEvent::ASSIST);
+			
+			Personality replacement;
+			replacement.ParseString("fleeing", false);
+			replacement.ParseString("pacifist", false);
+			
+			victim->SetPersonality(replacement);
+		}
 	}
 	else if(key == 'c' && CanCapture())
 	{
@@ -522,7 +527,7 @@ bool BoardingPanel::CanAttack() const
 
 bool BoardingPanel::CanRepair() const
 {
-	return !isCapturing && !hasRepaired;
+	return !isCapturing && !hasRepaired && victim->IsRepairable();
 }
 
 

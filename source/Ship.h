@@ -216,6 +216,7 @@ public:
 	
 	// Check the status of this ship.
 	bool IsCapturable() const;
+	bool IsRepairable() const;
 	bool IsTargetable() const;
 	bool IsOverheated() const;
 	bool IsDisabled() const;
@@ -472,6 +473,7 @@ private:
 	double steeringDirection = 0.;
 	bool neverDisabled = false;
 	bool isCapturable = true;
+	bool isRepairable = true;
 	bool isInvisible = false;
 	int customSwizzle = -1;
 	double cloak = 0.;

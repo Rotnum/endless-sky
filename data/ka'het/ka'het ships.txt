@@ -13,6 +13,7 @@ ship "Maeri'het"
 	sprite "ship/maeri'het"
 	thumbnail "thumbnail/maeri'het"
 	"never disabled"
+	"unrepairable"
 	attributes
 		category "Light Warship"
 		"cost" 13800000
@@ -74,9 +75,11 @@ ship "Maeri'het"
 
 ship "Maeri'het" "Maeri'het (Disable-able)"
 	"uncapturable"
+	"unrepairable"
 
 ship "Maeri'het" "Maeri'het (EMP)"
 	"never disabled"
+	"unrepairable"
 	outfits
 		"EMP Torpedo" 32
 		"Ka'het Ravager Turret"
@@ -94,6 +97,7 @@ ship "Maeri'het" "Maeri'het (EMP)"
 
 ship "Maeri'het" "Maeri'het (EMP, Disable-able)"
 	"uncapturable"
+	"unrepairable"
 	outfits
 		"EMP Torpedo" 32
 		"Ka'het Ravager Turret"
@@ -114,6 +118,7 @@ ship "Telis'het"
 	sprite "ship/telis'het"
 	thumbnail "thumbnail/telis'het"
 	"never disabled"
+	"unrepairable"
 	attributes
 		category "Medium Warship"
 		"cost" 32600000
@@ -177,9 +182,11 @@ ship "Telis'het"
 
 ship "Telis'het" "Telis'het (Disable-able)"
 	"uncapturable"
+	"unrepairable"
 
 ship "Telis'het" "Telis'het (EMP)"
 	"never disabled"
+	"unrepairable"
 	outfits
 		"Ka'het EMP Deployer" 4
 		"Ka'het Annihilator Turret"
@@ -198,6 +205,7 @@ ship "Telis'het" "Telis'het (EMP)"
 
 ship "Telis'het" "Telis'het (EMP, Disable-able)"
 	"uncapturable"
+	"unrepairable"
 	outfits
 		"Ka'het EMP Deployer" 4
 		"Ka'het Annihilator Turret"
@@ -216,6 +224,7 @@ ship "Telis'het" "Telis'het (EMP, Disable-able)"
 
 ship "Telis'het" "Telis'het (Guns)"
 	"never disabled"
+	"unrepairable"
 	outfits
 		"Ka'het Ravager Beam" 4
 		"Ka'het Annihilator Turret" 5
@@ -232,6 +241,7 @@ ship "Telis'het" "Telis'het (Guns)"
 
 ship "Telis'het" "Telis'het (Guns, Disable-able)"
 	"uncapturable"
+	"unrepairable"
 	outfits
 		"Ka'het Ravager Beam" 4
 		"Ka'het Annihilator Turret" 5
@@ -251,6 +261,7 @@ ship "Vareti'het"
 	sprite ship/vareti'het
 	thumbnail "thumbnail/vareti'het"
 	"never disabled"
+	"unrepairable"
 	attributes
 		category "Heavy Warship"
 		cost 53800000
@@ -319,6 +330,7 @@ ship "Vareti'het"
 
 ship "Vareti'het" "Vareti'het (Disable-able)"
 	"uncapturable"
+	"unrepairable"
 
 ship "Vareti'het" "Vareti'het (EMP)"
 	"never disabled"
@@ -354,6 +366,7 @@ ship "Vareti'het" "Vareti'het (EMP)"
 	turret 13.5 16.5
 
 ship "Vareti'het" "Vareti'het (EMP, Disable-able)"
+	"unrepairable"
 	outfits
 		"Ka'het Nullifier"
 		"Ka'het Ravager Beam" 4
@@ -417,6 +430,7 @@ ship "Vareti'het" "Vareti'het (Strong)"
 
 ship "Vareti'het" "Vareti'het (Strong, Disable-able)"
 	"uncapturable"
+	"unrepairable"
 	outfits
 		"Ka'het Nullifier"
 		"Ka'het Annihilator" 6
@@ -459,6 +473,7 @@ ship "Selii'mar"
 		"outfit space" 77
 		"weapon capacity" 18
 		"engine capacity" 21
+		"unrepairable"
 		weapon
 			"blast radius" 48
 			"shield damage" 320
@@ -489,6 +504,7 @@ ship "Faes'mar"
 		"cargo space" 102
 		"outfit space" 92
 		"engine capacity" 21
+		"unrepairable"
 		weapon
 			"blast radius" 52
 			"shield damage" 410
@@ -507,6 +523,7 @@ ship "Faes'mar"
 	description "The Mar were the last and most successful ships of the Builders in their attempts at creating automatic drones. Today only the Het stations are still aware of their blueprints, and keep producing the Faes'mar to transport the resources mined to the station's cargo bay."
 
 ship "Faes'mar" "Faes'mar (Strong)"
+	"unrepairable"
 	outfits
 		"Ka'het Shield Restorer" 2
 		"Ka'het MHD Generator"

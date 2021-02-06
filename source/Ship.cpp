@@ -305,6 +305,8 @@ void Ship::Load(const DataNode &node)
 			neverDisabled = true;
 		else if(key == "uncapturable")
 			isCapturable = false;
+		else if(key == "unrepairable")
+			isRepairable = false;
 		else if(((key == "fighter" || key == "drone") && child.Size() >= 3) ||
 			(key == "bay" && child.Size() >= 4))
 		{
@@ -2363,6 +2365,13 @@ const Planet *Ship::GetPlanet() const
 bool Ship::IsCapturable() const
 {
 	return isCapturable;
+}
+
+
+
+bool Ship::IsRepairable() const
+{
+	return isRepairable;
 }
 
 
