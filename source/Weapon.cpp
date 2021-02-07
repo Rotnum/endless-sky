@@ -18,6 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "GameData.h"
 #include "Outfit.h"
 #include "SpriteSet.h"
+#include "Random.h"
 
 #include <algorithm>
 
@@ -136,6 +137,10 @@ void Weapon::LoadWeapon(const DataNode &node)
 				inaccuracy = value;
 			else if(key == "turret turn")
 				turretTurn = value;
+			else if(key == "hit direction")
+				hitDirection = value;
+			else if(key == "random hit direction")
+				randomHitDirection = value;
 			else if(key == "tracking")
 				tracking = max(0., min(1., value));
 			else if(key == "optical tracking")
@@ -272,6 +277,13 @@ bool Weapon::IsWeapon() const
 const Body &Weapon::WeaponSprite() const
 {
 	return sprite;
+}
+
+
+
+double Weapon::HitDirection() const
+{
+	return hitDirection + Random::Int(randomHitDirection);
 }
 
 

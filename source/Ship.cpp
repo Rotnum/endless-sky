@@ -3766,6 +3766,7 @@ int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distance
 	{
 		Point d = position - damagePosition;
 		double distance = d.Length();
+		d = Angle(weapon.HitDirection()).Rotate(d);
 		if(distance)
 			ApplyForce((hitForce / distance) * d, weapon.IsGravitational());
 	}

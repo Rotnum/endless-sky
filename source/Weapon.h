@@ -80,6 +80,7 @@ public:
 	double Turn() const;
 	double Inaccuracy() const;
 	double TurretTurn() const;
+	double HitDirection() const;
 	
 	double Tracking() const;
 	double OpticalTracking() const;
@@ -216,6 +217,8 @@ private:
 	double turn = 0.;
 	double inaccuracy = 0.;
 	double turretTurn = 0.;
+	double hitDirection = 0.;
+	double randomHitDirection = 1.;
 	
 	double tracking = 0.;
 	double opticalTracking = 0.;
