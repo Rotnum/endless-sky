@@ -111,6 +111,7 @@ public:
 	Command And(Command command) const;
 	// Get the commands that are set in this and not in the given command.
 	Command AndNot(Command command) const;
+	Command Malfunction() const;
 	
 	// Get or set the turn amount. The amount must be between -1 and 1, but it
 	// can be a fractional value to allow finer control.

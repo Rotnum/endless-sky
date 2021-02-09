@@ -50,6 +50,16 @@ effect "slowing spark"
 	"random angle" 360
 	"random spin" 30
 	"random velocity" .1
+	
+effect "malfunction spark"
+	sprite "effect/nano spark"
+		"no repeat"
+		"frame rate" 10
+	"lifetime" 15
+	"random angle" 360
+	"random spin" 30
+	"random velocity" 4
+	"velocity scale" -.005
 
 
 effect "flame"

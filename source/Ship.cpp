@@ -1322,8 +1322,6 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 		CreateSparks(visuals, "disruption spark", disruption * .1);
 	if(slowness)
 		CreateSparks(visuals, "slowing spark", slowness * .1);
-	if(malfunction)
-		CreateSparks(visuals, "malfunction spark", malfunction * (Crew() / 4));
 	// Jettisoned cargo effects (only for ships in the current system).
 	if(!jettisoned.empty() && !forget)
 	{
@@ -1332,6 +1330,7 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 	}
 	int requiredCrew = RequiredCrew();
 	double slowMultiplier = 1. / (1. + slowness * .05);
+	double isMalfunctioning = 1;
 	
 	// Move the turrets.
 	if(!isDisabled && !pilotError)
@@ -1678,8 +1677,8 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 	}
 	else if((requiredCrew && static_cast<int>(Random::Int(1. + malfunction * 4.)) >= Crew()) || (malfunction >= 0.0001 && attributes.Get("automata")))
 	{
-		pilotError = 30;
-		pilotOkay = Random::Int(10);
+		isMalfunctioning = -1.;
+		CreateSparks(visuals, "malfunction spark", 5);
 	}
 	else
 		pilotOkay = 30;
@@ -1709,12 +1708,12 @@ void Ship::Move(vector<Visual> &visuals, list<shared_ptr<Flotsam>> &flotsam)
 				double scale = fabs(commands.Turn());
 				energy -= scale * cost;
 				heat += scale * attributes.Get("turning heat");
-				angle += commands.Turn() * TurnRate() * slowMultiplier;
+				angle += commands.Turn() * TurnRate() * slowMultiplier * isMalfunctioning;
 			}
 		}
 		double thrustCommand = commands.Has(Command::FORWARD) - commands.Has(Command::BACK);
 		double thrust = 0.;
-		if(thrustCommand)
+		if(thrustCommand && isMalfunctioning > -.5)
 		{
 			// Check if we are able to apply this thrust.
 			double cost = attributes.Get((thrustCommand > 0.) ?
