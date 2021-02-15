@@ -37,6 +37,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "StellarObject.h"
 #include "System.h"
 #include "Visual.h"
+#include "CaptureOdds.h"
 
 #include <algorithm>
 #include <cmath>
@@ -3034,7 +3035,7 @@ int Ship::TakeDamage(const Projectile &projectile, bool isBlast)
 {
 	int type = 0;
 	const Weapon &weapon = projectile.GetWeapon();
-	type |= TakeDamage(weapon, 1., projectile.DistanceTraveled(), projectile.Position(), isBlast);
+	type |= TakeDamage(weapon, 1., projectile.DistanceTraveled(), projectile.Position(), isBlast, projectile.GetGovernment());
 	
 	// If this ship was hit directly and did not consider itself an enemy of the
 	// ship that hit it, it is now "provoked" against that government.
@@ -3055,7 +3056,7 @@ void Ship::TakeHazardDamage(vector<Visual> &visuals, const Hazard *hazard, doubl
 	// Rather than exactly compute the distance between the hazard origin and
 	// the closest point on the ship, estimate it using the mask's Radius.
 	double distanceTraveled = position.Length() - GetMask().Radius();
-	TakeDamage(*hazard, strength, distanceTraveled, Point(), hazard->BlastRadius() > 0.);
+	TakeDamage(*hazard, strength, distanceTraveled, Point(), hazard->BlastRadius() > 0., GetGovernment());
 	for(const auto &effect : hazard->HitEffects())
 		CreateSparks(visuals, effect.first, effect.second * strength);
 }
@@ -3698,7 +3699,7 @@ void Ship::CreateSparks(vector<Visual> &visuals, const Effect *effect, double am
 
 
 // A helper method for taking damage from either a projectile or a hazard.
-int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distanceTraveled, const Point &damagePosition, bool isBlast)
+int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distanceTraveled, const Point &damagePosition, bool isBlast, const Government *firingGovernment)
 {
 	if(isBlast && weapon.IsDamageScaled())
 	{
@@ -3732,6 +3733,7 @@ int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distance
 	double disruptionDamage = weapon.DisruptionDamage() * damageScaling / (1. + attributes.Get("disruption protection"));
 	double slowingDamage = weapon.SlowingDamage() * damageScaling / (1. + attributes.Get("slowing protection"));
 	double hitForce = weapon.HitForce() * damageScaling / (1. + attributes.Get("force protection"));
+	pilotError = max(pilotError, weapon.ConvertSpeed());
 	bool wasDisabled = IsDisabled();
 	bool wasDestroyed = IsDestroyed();
 	
@@ -3792,6 +3794,34 @@ int Ship::TakeDamage(const Weapon &weapon, double damageScaling, double distance
 	}
 	else if(heat < .9 * MaximumHeat())
 		isOverheated = false;
+	
+	// The weapon is an attack pod and they want the ship
+	if(weapon.ConvertSpeed() > 0)
+	{
+		int attackCrew = weapon.ConvertCrew();
+		CaptureOdds successOdds = CaptureOdds(attackCrew, weapon.ConvertAttack(), *this);
+		
+		while(Crew() > 0 && attackCrew > 0)
+		{
+			double yourPower = successOdds.DefenderPower(Crew());
+			double enemyPower = successOdds.AttackerPower(attackCrew);
+			double total = yourPower + enemyPower;
+			if(Random::Real() * total >= yourPower)
+				AddCrew(-1);
+			else
+				attackCrew--;
+			
+			if(!Crew())
+			{
+				SetGovernment(firingGovernment);
+				AddCrew(weapon.ConvertCrew());
+				hull = max(hull, MinimumHull());
+				break;
+			}
+			else
+				break;
+		}
+	}
 	
 	return type;
 }

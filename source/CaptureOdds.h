@@ -32,6 +32,7 @@ public:
 	// Calculate odds that the first given ship can capture the second, assuming
 	// the first ship always attacks and the second one always defends.
 	CaptureOdds(const Ship &attacker, const Ship &defender);
+	CaptureOdds(const int attackingCrew, const int attackingCrewStrength, const Ship &defender);
 	
 	// Get the odds of the attacker winning if the two ships have the given
 	// number of crew members remaining.
@@ -56,6 +57,7 @@ private:
 	// Calculate attack or defense power for each number of crew members up to
 	// the given ship's full complement.
 	static std::vector<double> Power(const Ship &ship, bool isDefender);
+	static std::vector<double> Power(const int crewCount, const int crewStrength);
 	
 	
 private:

@@ -220,6 +220,12 @@ void Weapon::LoadWeapon(const DataNode &node)
 			}
 			else if(key == "dropoff modifier")
 				damageDropoffModifier = max(0., value);
+			else if(key == "ship convert speed")
+				convertSpeed = max(1., value);
+			else if(key == "convert attack")
+				convertAttack = max(1., value);
+			else if(key == "convert crew")
+				convertCrew = max(1., value);
 			else
 				child.PrintTrace("Unrecognized weapon attribute: \"" + key + "\":");
 		}

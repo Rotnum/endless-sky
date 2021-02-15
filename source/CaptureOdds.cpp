@@ -18,6 +18,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 #include <algorithm>
 #include <functional>
+#include <iostream>
 
 using namespace std;
 
@@ -28,6 +29,15 @@ CaptureOdds::CaptureOdds(const Ship &attacker, const Ship &defender)
 {
 	powerA = Power(attacker, false);
 	powerD = Power(defender, true);
+	Calculate();
+}
+
+
+
+CaptureOdds::CaptureOdds(const int attackingCrew, const int attackingCrewStrength, const Ship &defender)
+{
+	powerA = Power(attackingCrew, attackingCrewStrength);
+	powerD = Power(defender, false);
 	Calculate();
 }
 
@@ -193,6 +203,21 @@ vector<double> CaptureOdds::Power(const Ship &ship, bool isDefender)
 	power.front() += crewPower;
 	for(unsigned i = 1; i < power.size(); ++i)
 		power[i] += power[i - 1] + crewPower;
+	
+	return power;
+}
+
+
+
+vector<double> CaptureOdds::Power(const int crewCount, const int crewStrength)
+{
+	vector<double> power;
+	if(!crewCount)
+		return power;
+		
+	power.insert(power.end(), crewCount, crewStrength);
+	for(unsigned i = 1; i < power.size(); i++)
+		power[i] += power[i - 1];
 	
 	return power;
 }

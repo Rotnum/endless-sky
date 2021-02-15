@@ -138,6 +138,9 @@ public:
 	double RelativeFuelDamage() const;
 	double RelativeHeatDamage() const;
 	double RelativeEnergyDamage() const;
+	int ConvertSpeed() const;
+	int ConvertAttack() const;
+	int ConvertCrew() const;
 	// Check if this weapon does damage. If not, attacking a ship with this
 	// weapon is not a provocation (even if you push or pull it).
 	bool DoesDamage() const;
@@ -270,6 +273,9 @@ private:
 	bool hasDamageDropoff = false;
 	std::pair<double, double> damageDropoffRange;
 	double damageDropoffModifier;
+	int convertSpeed = 0;
+	int convertAttack = 1;
+	int convertCrew = 1;
 	
 	// Cache the calculation of these values, for faster access.
 	mutable bool calculatedDamage = true;
@@ -344,6 +350,9 @@ inline double Weapon::EnergyDamage() const { return TotalDamage(ENERGY_DAMAGE); 
 inline double Weapon::IonDamage() const { return TotalDamage(ION_DAMAGE); }
 inline double Weapon::DisruptionDamage() const { return TotalDamage(DISRUPTION_DAMAGE); }
 inline double Weapon::SlowingDamage() const { return TotalDamage(SLOWING_DAMAGE); }
+inline int Weapon::ConvertSpeed() const { return convertSpeed; }
+inline int Weapon::ConvertAttack() const { return convertAttack; }
+inline int Weapon::ConvertCrew() const { return convertCrew; }
 
 inline double Weapon::RelativeShieldDamage() const { return TotalDamage(RELATIVE_SHIELD_DAMAGE); }
 inline double Weapon::RelativeHullDamage() const { return TotalDamage(RELATIVE_HULL_DAMAGE); }
