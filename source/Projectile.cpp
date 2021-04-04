@@ -118,6 +118,11 @@ void Projectile::Move(vector<Visual> &visuals, vector<Projectile> &projectiles)
 		MarkForRemoval();
 		return;
 	}
+	if(lifetime % weapon->SubmunitionPeriod() == 0)
+		for(const auto &it : weapon->Submunitions())
+			for(int i = 0; i < it.second; ++i)
+				projectiles.emplace_back(*this, it.first);
+	
 	for(const auto &it : weapon->LiveEffects())
 		if(!Random::Int(it.second))
 			visuals.emplace_back(*it.first, position, velocity, angle);

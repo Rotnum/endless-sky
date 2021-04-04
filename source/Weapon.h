@@ -59,6 +59,7 @@ public:
 	double BurstReload() const;
 	int BurstCount() const;
 	int Homing() const;
+	int SubmunitionPeriod() const;
 	
 	int AmmoUsage() const;
 	
@@ -203,6 +204,7 @@ private:
 	double burstReload = 1.;
 	int burstCount = 1;
 	int homing = 0;
+	int submunitionPeriod = 1;
 	
 	int missileStrength = 0;
 	int antiMissile = 0;
@@ -286,6 +288,7 @@ inline double Weapon::Reload() const { return reload; }
 inline double Weapon::BurstReload() const { return burstReload; }
 inline int Weapon::BurstCount() const { return burstCount; }
 inline int Weapon::Homing() const { return homing; }
+inline int Weapon::SubmunitionPeriod() const { return submunitionPeriod; }
 
 inline int Weapon::MissileStrength() const { return missileStrength; }
 inline int Weapon::AntiMissile() const { return antiMissile; }

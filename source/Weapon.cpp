@@ -89,6 +89,8 @@ void Weapon::LoadWeapon(const DataNode &node)
 		{
 			int count = (child.Size() >= 3) ? child.Value(2) : 1;
 			submunitions[GameData::Outfits().Get(child.Token(1))] += count;
+			
+			submunitionPeriod = lifetime + 1;
 		}
 		else
 		{
@@ -220,6 +222,8 @@ void Weapon::LoadWeapon(const DataNode &node)
 			}
 			else if(key == "dropoff modifier")
 				damageDropoffModifier = max(0., value);
+			else if(key == "submunition period")
+				submunitionPeriod = max(1., value);
 			else
 				child.PrintTrace("Unrecognized weapon attribute: \"" + key + "\":");
 		}
