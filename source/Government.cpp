@@ -127,6 +127,20 @@ void Government::Load(const DataNode &node)
 			language = child.Token(1);
 		else if(child.Token(0) == "raid" && child.Size() >= 2)
 			raidFleet = GameData::Fleets().Get(child.Token(1));
+		else if(child.Token(0) == "illegal")
+		{
+			for(const DataNode &grand : child)
+			{
+				if(grand.Size() >= 2)
+				{
+					// Make sure the specified outfit exists.
+					const Outfit *outfit = GameData::Outfits().Get(grand.Token(0));
+					illegal[outfit] = grand.Value(1);
+				}
+				else
+					grand.PrintTrace("Skipping unrecognized attribute:");
+			}
+		}
 		else
 			child.PrintTrace("Skipping unrecognized attribute:");
 	}
@@ -344,6 +358,13 @@ void Government::Bribe() const
 string Government::Fine(PlayerInfo &player, int scan, const Ship *target, double security) const
 {
 	return GameData::GetPolitics().Fine(player, this, scan, target, security);
+}
+
+
+
+int Government::GetFineFor(const Outfit *outfit) const
+{
+	return illegal.find(outfit) != illegal.end() ? illegal.at(outfit) : 0;
 }
 
 

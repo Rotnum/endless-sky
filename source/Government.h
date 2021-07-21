@@ -15,6 +15,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 #include "Color.h"
 #include "LocationFilter.h"
+#include "Outfit.h"
 
 #include <map>
 #include <string>
@@ -107,6 +108,8 @@ public:
 	// Each government can only fine you once per day.
 	std::string Fine(PlayerInfo &player, int scan = 0, const Ship *target = nullptr, double security = 1.) const;
 	
+	int GetFineFor(const Outfit *) const;
+	
 	// Get or set the player's reputation with this government.
 	double Reputation() const;
 	void AddReputation(double value) const;
@@ -139,6 +142,8 @@ private:
 	const Fleet *raidFleet = nullptr;
 	double crewAttack = 1.;
 	double crewDefense = 2.;
+	
+	std::map<const Outfit *, int> illegal;
 };
 
 

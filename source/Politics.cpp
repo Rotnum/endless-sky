@@ -258,7 +258,7 @@ string Politics::Fine(PlayerInfo &player, const Government *gov, int scan, const
 			for(const auto &it : ship->Outfits())
 				if(it.second)
 				{
-					int64_t fine = it.first->Get("illegal");
+					int64_t fine = !gov->GetFineFor(it.first) ? it.first->Get("illegal") : gov->GetFineFor(it.first);
 					if(it.first->Get("atrocity") > 0.)
 						fine = -1;
 					if((fine > maxFine && maxFine >= 0) || fine < 0)

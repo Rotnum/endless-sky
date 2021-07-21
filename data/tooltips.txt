@@ -198,7 +198,7 @@ tip "hull repair multiplier:"
 	`Modifies the amount of hull strength repaired per second by the given factor.`
 
 tip "illegal:"
-	`Amount of credits you can be fined for carrying this outfit.`
+	`Amount of credits you can be fined for carrying this outfit. This outfit is universally illegal.`
 
 tip "ion protection:"
 	`Protection against weapons that do ion damage. If you add more than one outfit with this attribute, each additional one is less effective: a total value of 1 results in a 1 percent reduction in ion damage, while a total value of 11 only results in a 10 percent reduction.`
