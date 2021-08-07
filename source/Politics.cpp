@@ -20,6 +20,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "Random.h"
 #include "Ship.h"
 #include "ShipEvent.h"
+#include "Messages.h"
 
 #include <algorithm>
 #include <cmath>
@@ -203,12 +204,12 @@ bool Politics::HasDominated(const Planet *planet) const
 
 
 // Check to see if the player has done anything they should be fined for.
-string Politics::Fine(PlayerInfo &player, const Government *gov, int scan, const Ship *target, double security)
+pair<string, int> Politics::Fine(PlayerInfo &player, const Government *gov, int scan, const Ship *target, double security)
 {
 	// Do nothing if you have already been fined today, or if you evade
 	// detection.
 	if(fined.count(gov) || Random::Real() > security || !gov->GetFineFraction())
-		return "";
+		return make_pair("", 0);
 	
 	string reason;
 	int64_t maxFine = 0;
@@ -294,7 +295,7 @@ string Politics::Fine(PlayerInfo &player, const Government *gov, int scan, const
 		player.Accounts().AddFine(maxFine);
 		fined.insert(gov);
 	}
-	return reason;
+	return make_pair(reason, maxFine);
 }
 
 

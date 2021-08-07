@@ -25,6 +25,8 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 class DataNode;
 class PlayerInfo;
 class System;
+class Government;
+class ShipEvent;
 
 
 
@@ -38,6 +40,8 @@ public:
 	// Dialog that has no callback (information only). In this form, there is
 	// only an "ok" button, not a "cancel" button.
 	explicit Dialog(const std::string &text, Truncate truncate = Truncate::NONE);
+	// Fine dialog.
+	Dialog(const std::string &text, const Government *government, int illegality, Truncate truncate = Truncate::NONE);
 	// Mission accept / decline dialog.
 	Dialog(const std::string &text, PlayerInfo &player, const System *system = nullptr, Truncate truncate = Truncate::NONE);
 	virtual ~Dialog() = default;
@@ -88,6 +92,7 @@ protected:
 	
 	bool canCancel;
 	bool okIsActive;
+	bool isFine;
 	bool isMission;
 	
 	std::string input;

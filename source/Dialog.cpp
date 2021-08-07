@@ -29,6 +29,9 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 #include "SpriteSet.h"
 #include "SpriteShader.h"
 #include "UI.h"
+#include "Politics.h"
+#include "Government.h"
+#include "ShipEvent.h"
 
 #include <cmath>
 
@@ -88,6 +91,16 @@ namespace {
 Dialog::Dialog(const string &text, Truncate truncate)
 {
 	Init(text, truncate, false);
+}
+
+
+
+// Dialog for accepting/rejecting a fine.
+Dialog::Dialog(const string &text, const Government *government, int illegality, Truncate truncate)
+	: intFun(bind(&Government::Offend, government, placeholders::_1, illegality)),
+	isFine(true)
+{
+	Init(text, truncate, true, true);
 }
 
 
@@ -305,10 +318,20 @@ void Dialog::Init(const string &message, Truncate truncate, bool canCancel, bool
 
 void Dialog::DoCallback() const
 {
-	if(isMission)
+	if(isMission && !isFine)
 	{
 		if(intFun)
 			intFun(okIsActive ? Conversation::ACCEPT : Conversation::DECLINE);
+		
+		return;
+	}
+	else if(isFine)
+	{
+		if(intFun && !okIsActive)
+		{
+			intFun(ShipEvent::DISABLE);
+			intFun(ShipEvent::PROVOKE);
+		}
 		
 		return;
 	}

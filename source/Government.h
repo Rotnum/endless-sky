@@ -106,7 +106,7 @@ public:
 	void Bribe() const;
 	// Check to see if the player has done anything they should be fined for.
 	// Each government can only fine you once per day.
-	std::string Fine(PlayerInfo &player, int scan = 0, const Ship *target = nullptr, double security = 1.) const;
+	std::pair<std::string, int> Fine(PlayerInfo &player, int scan = 0, const Ship *target = nullptr, double security = 1.) const;
 	
 	int GetFineFor(const Outfit *) const;
 	

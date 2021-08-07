@@ -530,10 +530,12 @@ void MainPanel::StepEvents(bool &isActive)
 			}
 			else if(event.TargetGovernment() && event.TargetGovernment()->IsPlayer())
 			{
-				string message = actor->Fine(player, event.Type(), &*event.Target());
-				if(!message.empty())
+				pair<string, int> message = actor->Fine(player, event.Type(), &*event.Target());
+				if(!message.first.empty())
 				{
-					GetUI()->Push(new Dialog(message));
+					// The count of the reputation loss is divided by one hundred because
+					// a person costs one hundred credits a day.
+					GetUI()->Push(new Dialog(message.first, actor, message.second / 100));
 					isActive = false;
 				}
 			}
