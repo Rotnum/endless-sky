@@ -535,7 +535,7 @@ void MainPanel::StepEvents(bool &isActive)
 				{
 					// The count of the reputation loss is divided by one hundred because
 					// a person costs one hundred credits a day.
-					GetUI()->Push(new Dialog(message.first, actor, message.second / 100));
+					GetUI()->Push(new Dialog(message.first, player, actor, message.second, nullptr));
 					isActive = false;
 				}
 			}

@@ -61,8 +61,10 @@ public:
 		// on your reputation, but entirely wipes out any positive reputation
 		// you had with the given government, first.
 		ATROCITY = (1 << 8),
+		// This ship has refused to pay a fine.
+		REFUSEDFINE = (1 << 9),
 		// This ship just jumped into a different system.
-		JUMP = (1 << 9)
+		JUMP = (1 << 10)
 	};
 	
 	

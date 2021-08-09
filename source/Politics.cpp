@@ -292,10 +292,16 @@ pair<string, int> Politics::Fine(PlayerInfo &player, const Government *gov, int 
 		maxFine = lround(maxFine * gov->GetFineFraction());
 		reason = "The " + gov->GetName() + " authorities fine you "
 			+ Format::Credits(maxFine) + " credits" + reason;
-		player.Accounts().AddFine(maxFine);
-		fined.insert(gov);
 	}
 	return make_pair(reason, maxFine);
+}
+
+
+
+// Registers a fine.
+void Politics::AddFine(const Government *gov)
+{
+	fined.insert(gov);
 }
 
 

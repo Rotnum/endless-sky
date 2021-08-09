@@ -40,6 +40,7 @@ Government::Government()
 	penaltyFor[ShipEvent::CAPTURE] = 1.;
 	penaltyFor[ShipEvent::DESTROY] = 1.;
 	penaltyFor[ShipEvent::ATROCITY] = 10.;
+	penaltyFor[ShipEvent::REFUSEDFINE] = 0.001;
 	
 	id = nextID++;
 }
@@ -101,6 +102,8 @@ void Government::Load(const DataNode &node)
 						penaltyFor[ShipEvent::DESTROY] = grand.Value(1);
 					else if(grand.Token(0) == "atrocity")
 						penaltyFor[ShipEvent::ATROCITY] = grand.Value(1);
+					else if(grand.Token(0) == "refused fine")
+						penaltyFor[ShipEvent::REFUSEDFINE] = grand.Value(1);
 					else
 						grand.PrintTrace("Skipping unrecognized attribute:");
 				}

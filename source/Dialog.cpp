@@ -96,10 +96,26 @@ Dialog::Dialog(const string &text, Truncate truncate)
 
 
 // Dialog for accepting/rejecting a fine.
-Dialog::Dialog(const string &text, const Government *government, int illegality, Truncate truncate)
-	: intFun(bind(&Government::Offend, government, placeholders::_1, illegality)),
-	isFine(true)
+// Includes special behavior for planet side fines.
+Dialog::Dialog(const string &text, PlayerInfo &player, const Government *gov, int fine, bool *shouldLaunch, Truncate truncate)
 {
+	// Screw `bind`, all my homies hate `bind`.
+	intFun = [&player, gov, fine, shouldLaunch](int hasAccepted)
+	{
+		if(hasAccepted == Conversation::ACCEPT)
+		{
+			player.Accounts().AddFine(fine);
+			GameData::GetPolitics().AddFine(gov);
+			return;
+		}
+		
+		gov->Offend(ShipEvent::REFUSEDFINE, fine);
+		gov->Offend(ShipEvent::PROVOKE, fine);
+		
+		if(shouldLaunch)
+			*shouldLaunch = true;
+	};
+	
 	Init(text, truncate, true, true);
 }
 
@@ -318,20 +334,10 @@ void Dialog::Init(const string &message, Truncate truncate, bool canCancel, bool
 
 void Dialog::DoCallback() const
 {
-	if(isMission && !isFine)
+	if(isMission)
 	{
 		if(intFun)
 			intFun(okIsActive ? Conversation::ACCEPT : Conversation::DECLINE);
-		
-		return;
-	}
-	else if(isFine)
-	{
-		if(intFun && !okIsActive)
-		{
-			intFun(ShipEvent::DISABLE);
-			intFun(ShipEvent::PROVOKE);
-		}
 		
 		return;
 	}
