@@ -38,6 +38,7 @@ public:
 		float blur[2] = {0.f, 0.f};
 		float clip = 1.f;
 		float alpha = 1.f;
+		float time = 0.f;
 	};
 	
 	

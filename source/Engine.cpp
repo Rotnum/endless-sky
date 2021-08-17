@@ -435,6 +435,8 @@ void Engine::Wait()
 // Begin the next step of calculations.
 void Engine::Step(bool isActive)
 {
+	gameTime += 1. / 60.;
+	
 	events.swap(eventQueue);
 	eventQueue.clear();
 	
@@ -1435,9 +1437,9 @@ void Engine::CalculateStep()
 		{
 			// Don't apply motion blur to very large planets and stars.
 			if(object.Width() >= 280.)
-				draw[calcTickTock].AddUnblurred(object);
+				draw[calcTickTock].AddUnblurred(object, gameTime);
 			else
-				draw[calcTickTock].Add(object);
+				draw[calcTickTock].AddUnblurred(object, gameTime);
 		}
 	// Draw the asteroids and minables.
 	asteroids.Draw(draw[calcTickTock], newCenter, zoom);

@@ -38,6 +38,7 @@ namespace {
 	GLint blurI;
 	GLint clipI;
 	GLint alphaI;
+	GLint timeI;
 	GLint swizzlerI;
 	
 	GLuint vao;
@@ -115,11 +116,40 @@ void SpriteShader::Init(bool useShaderSwizzle)
 		"uniform int swizzler;\n";
 	fragmentCodeStream <<
 		"uniform float alpha;\n"
+		"uniform float time;\n"
 		"const int range = 5;\n"
 		
 		"in vec2 fragTexCoord;\n"
 		
 		"out vec4 finalColor;\n"
+		
+		"vec2 randvec( ivec2 inp ) {\n"
+		"  int hash = inp.x + inp.y * 11111;\n"
+		"  hash = (hash << 13) ^ hash;\n"
+		"  hash = (hash * (hash * hash * 15731 + 789221) + 1376312589) >> 16;\n"
+		"  return vec2(cos(float(hash)), sin(float(hash)));\n"
+		"}\n"
+		
+		"float noiseval(vec2 pos) {\n"
+		"  ivec2 intpos = ivec2(floor(pos));\n"
+		"  vec2 floatpos = fract(pos);\n"
+		"  vec2 intp = floatpos * floatpos * (3. - 2. * floatpos);\n"
+		
+		"  return mix(mix(dot(randvec(intpos + ivec2(0, 0)), floatpos - vec2(0., 0.)),\n"
+		"                 dot(randvec(intpos + ivec2(1, 0)), floatpos - vec2(1., 0.)), intp.x),\n"
+		"             mix(dot(randvec(intpos + ivec2(0, 1)), floatpos - vec2(0., 1.)),\n"
+		"                 dot(randvec(intpos + ivec2(1, 1)), floatpos - vec2(1., 1.)), intp.x), intp.y);\n"
+		"}\n"
+		
+		"float noise(vec2 pos) {\n"
+		"  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);\n"
+		"  vec2 uv = pos * 40.;\n"
+		"  float returnval = 0.5 * noiseval(uv); uv = m * uv;\n"
+		"  returnval += 0.25 * noiseval(uv); uv = m * uv;\n"
+		"  returnval += 0.125 * noiseval(uv); uv = m * uv;\n"
+		"  returnval += 0.0625 * noiseval(uv);\n"
+		"  return returnval;\n"
+		"}\n"
 		
 		"void main() {\n"
 		"  float first = floor(frame);\n"
@@ -130,10 +160,10 @@ void SpriteShader::Init(bool useShaderSwizzle)
 		"  {\n"
 		"    if(fade != 0.f)\n"
 		"      color = mix(\n"
-		"        texture(tex, vec3(fragTexCoord, first)),\n"
-		"        texture(tex, vec3(fragTexCoord, second)), fade);\n"
+		"        texture(tex, vec3(fragTexCoord + vec2(noise(fragTexCoord + time * .01), noise(fragTexCoord + -time * .01)) * .01, first)),\n"
+		"        texture(tex, vec3(fragTexCoord + vec2(noise(fragTexCoord + time * .01), noise(fragTexCoord + -time * .01)) * .01, second)), fade);\n"
 		"    else\n"
-		"      color = texture(tex, vec3(fragTexCoord, first));\n"
+		"      color = texture(tex, vec3(fragTexCoord + vec2(noise(fragTexCoord + time * .01), noise(fragTexCoord + -time * .01)) * .01, first));\n"
 		"  }\n"
 		"  else\n"
 		"  {\n"
@@ -262,6 +292,7 @@ void SpriteShader::Init(bool useShaderSwizzle)
 	blurI = shader.Uniform("blur");
 	clipI = shader.Uniform("clip");
 	alphaI = shader.Uniform("alpha");
+	timeI = shader.Uniform("time");
 	if(useShaderSwizzle)
 		swizzlerI = shader.Uniform("swizzler");
 	
@@ -344,6 +375,7 @@ void SpriteShader::Add(const Item &item, bool withBlur)
 	// Clipping has the opposite sense in the shader.
 	glUniform1f(clipI, 1.f - item.clip);
 	glUniform1f(alphaI, item.alpha);
+	glUniform1f(timeI, item.time);
 	
 	// Bounds check for the swizzle value:
 	int swizzle = (static_cast<size_t>(item.swizzle) >= SWIZZLE.size() ? 0 : item.swizzle);

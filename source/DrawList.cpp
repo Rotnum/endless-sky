@@ -58,27 +58,27 @@ bool DrawList::Add(const Body &body, double cloak)
 
 
 
-bool DrawList::Add(const Body &body, Point position)
+bool DrawList::Add(const Body &body, Point position, float time)
 {
 	position -= center;
 	Point blur = body.Velocity() - centerVelocity;
 	if(Cull(body, position, blur))
 		return false;
 	
-	Push(body, position, blur, 0., 1., body.GetSwizzle());
+	Push(body, position, blur, 0., 1., body.GetSwizzle(), time);
 	return true;
 }
 
 
 
-bool DrawList::AddUnblurred(const Body &body)
+bool DrawList::AddUnblurred(const Body &body, float time)
 {
 	Point position = body.Position() - center;
 	Point blur;
 	if(Cull(body, position, blur))
 		return false;
 	
-	Push(body, position, blur, 0., 1., body.GetSwizzle());
+	Push(body, position, blur, 0., 1., body.GetSwizzle(), time);
 	return true;
 }
 
@@ -134,7 +134,7 @@ bool DrawList::Cull(const Body &body, const Point &position, const Point &blur) 
 
 
 
-void DrawList::Push(const Body &body, Point pos, Point blur, double cloak, double clip, int swizzle)
+void DrawList::Push(const Body &body, Point pos, Point blur, double cloak, double clip, int swizzle, float time)
 {
 	SpriteShader::Item item;
 	
@@ -175,6 +175,8 @@ void DrawList::Push(const Body &body, Point pos, Point blur, double cloak, doubl
 	
 	item.alpha = 1. - cloak;
 	item.swizzle = swizzle;
+	
+	item.time = time;
 	
 	items.push_back(item);
 }

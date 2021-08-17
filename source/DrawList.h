@@ -38,9 +38,9 @@ public:
 	// Add an object based on the Body class.
 	bool Add(const Body &body, double cloak = 0.);
 	// Add an object at the given position (rather than its own).
-	bool Add(const Body &body, Point position);
+	bool Add(const Body &body, Point position, float time = 0.);
 	// Add an object that should not be drawn with motion blur.
-	bool AddUnblurred(const Body &body);
+	bool AddUnblurred(const Body &body, float time = 0.);
 	// Add an object using a specific swizzle (rather than its own).
 	bool AddSwizzled(const Body &body, int swizzle);
 	
@@ -52,7 +52,7 @@ private:
 	// Determine if the given object should be drawn at all.
 	bool Cull(const Body &body, const Point &position, const Point &blur) const;
 	
-	void Push(const Body &body, Point pos, Point blur, double cloak, double clip, int swizzle);
+	void Push(const Body &body, Point pos, Point blur, double cloak, double clip, int swizzle, float time = 0.);
 	
 	
 private:
