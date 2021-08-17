@@ -4377,9 +4377,11 @@ system Antevorta
 	hazard "Ember Waste Base Storm" 9000
 	object
 		sprite star/carbon
+			normal _menu/normal
 		period 10
 	object
 		sprite star/carbon-core
+			normal _menu/normal
 		period 10
 	object
 		sprite planet/desert8
@@ -12328,6 +12330,7 @@ system "Hevru Hai"
 	fleet Quarg 600
 	object
 		sprite star/g0-old
+			normal _menu/normal
 		period 10
 	object "Alta Hai"
 		sprite planet/ringworld
@@ -14234,9 +14237,11 @@ system "Kor Ak'Mari"
 	fleet "Korath Raid" 2800
 	object
 		sprite star/carbon
+			normal _menu/normal
 		period 100
 	object
 		sprite star/carbon-core
+			normal _menu/normal
 		period 100
 	object
 		sprite planet/lava6
@@ -18174,10 +18179,12 @@ system Ossipago
 	hazard "Ember Waste Base Storm" 9000
 	object
 		sprite star/f5-old
+			normal _menu/normal
 		distance 11.9736
 		period 9.06221
 	object
 		sprite star/m5
+			normal _menu/normal
 		distance 88.0264
 		period 9.06221
 		offset 180
@@ -18689,6 +18696,9 @@ system Peresedersi
 	trade Plastic 499
 	object
 		sprite star/nova
+			normal _menu/normal
+				scale 0.095
+				strength 0.005
 		period 1000
 		offset 190
 	object
@@ -21321,6 +21331,9 @@ system Saquergen
 	trade Plastic 328
 	object
 		sprite star/nova-old
+			normal _menu/normal
+				scale 0.095
+				strength 0.005
 		period 1000
 	object
 		sprite star/nova-old-core
