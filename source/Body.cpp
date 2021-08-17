@@ -62,6 +62,34 @@ const Sprite *Body::GetSprite() const
 
 
 
+bool Body::HasNormal() const
+{
+	return (normal && normal->Frames());
+}
+
+
+
+const Sprite *Body::GetNormal() const
+{
+	return normal;
+}
+
+
+
+float Body::NormalScale() const
+{
+	return normalScale;
+}
+
+
+
+float Body::NormalStrength() const
+{
+	return normalStrength;
+}
+
+
+
 // Get the width of this object, in world coordinates (i.e. taking zoom into account).
 double Body::Width() const
 {
@@ -210,6 +238,25 @@ void Body::LoadSprite(const DataNode &node)
 		}
 		else if(child.Token(0) == "rewind")
 			rewind = true;
+		else if(child.Token(0) == "normal")
+		{
+			if(child.Size() >= 2)
+				normal = SpriteSet::Get(child.Token(1));
+			
+			for(const DataNode &grand : child)
+			{
+				if(grand.Token(0) == "source" && grand.Size() >= 2)
+					normal = SpriteSet::Get(grand.Token(1));
+				else if(grand.Token(0) == "scale" && grand.Size() >= 2)
+					normalScale = grand.Value(1);
+				else if(grand.Token(0) == "strength" && grand.Size() >= 2)
+					normalStrength = grand.Value(1);
+				else
+					grand.PrintTrace("Skipping unrecognized attribute:");
+				
+				grand.PrintTrace(grand.Token(0) + " " + grand.Token(1));
+			}
+		}
 		else
 			child.PrintTrace("Skipping unrecognized attribute:");
 	}

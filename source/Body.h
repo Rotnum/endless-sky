@@ -40,6 +40,13 @@ public:
 	bool HasSprite() const;
 	// Access the underlying Sprite object.
 	const Sprite *GetSprite() const;
+	// The same as above, but for the normal.
+	bool HasNormal() const;
+	const Sprite *GetNormal() const;
+	// Get the normal's scale.
+	float NormalScale() const;
+	// Get the amount the normal should displace the pixels.
+	float NormalStrength() const;
 	// Get the dimensions of the sprite.
 	double Width() const;
 	double Height() const;
@@ -109,6 +116,11 @@ private:
 	const Sprite *sprite = nullptr;
 	// Allow objects based on this one to adjust their frame rate and swizzle.
 	int swizzle = 0;
+	
+	// Shader animation parameters.
+	const Sprite *normal = nullptr;
+	float normalScale = 1.f;
+	float normalStrength = .01f;
 	
 	float frameRate = 2.f / 60.f;
 	int delay = 0;

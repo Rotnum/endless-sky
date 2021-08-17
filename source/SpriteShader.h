@@ -30,6 +30,7 @@ public:
 	class Item {
 	public:
 		uint32_t texture = 0;
+		uint32_t normal = 0;
 		uint32_t swizzle = 0;
 		float frame = 0.f;
 		float frameCount = 1.f;
@@ -39,6 +40,9 @@ public:
 		float clip = 1.f;
 		float alpha = 1.f;
 		float time = 0.f;
+		
+		float normalScale = 1.f;
+		float normalStrength = .01f;
 	};
 	
 	
