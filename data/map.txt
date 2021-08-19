@@ -4377,11 +4377,11 @@ system Antevorta
 	hazard "Ember Waste Base Storm" 9000
 	object
 		sprite star/carbon
-			normal _menu/normal
+			displacement _menu/displacement
 		period 10
 	object
 		sprite star/carbon-core
-			normal _menu/normal
+			displacement _menu/displacement
 		period 10
 	object
 		sprite planet/desert8
@@ -5464,7 +5464,7 @@ system Betelgeuse
 	fleet "Human Miners" 3000
 	object
 		sprite star/m-supergiant
-			normal _menu/normal
+			displacement _menu/displacement
 		period 10
 	object
 		sprite planet/desert2-b
@@ -12330,7 +12330,7 @@ system "Hevru Hai"
 	fleet Quarg 600
 	object
 		sprite star/g0-old
-			normal _menu/normal
+			displacement _menu/displacement
 		period 10
 	object "Alta Hai"
 		sprite planet/ringworld
@@ -14237,11 +14237,11 @@ system "Kor Ak'Mari"
 	fleet "Korath Raid" 2800
 	object
 		sprite star/carbon
-			normal _menu/normal
+			displacement _menu/displacement
 		period 100
 	object
 		sprite star/carbon-core
-			normal _menu/normal
+			displacement _menu/displacement
 		period 100
 	object
 		sprite planet/lava6
@@ -18179,12 +18179,12 @@ system Ossipago
 	hazard "Ember Waste Base Storm" 9000
 	object
 		sprite star/f5-old
-			normal _menu/normal
+			displacement _menu/displacement
 		distance 11.9736
 		period 9.06221
 	object
 		sprite star/m5
-			normal _menu/normal
+			displacement _menu/displacement
 		distance 88.0264
 		period 9.06221
 		offset 180
@@ -18696,7 +18696,7 @@ system Peresedersi
 	trade Plastic 499
 	object
 		sprite star/nova
-			normal _menu/normal
+			displacement _menu/displacement
 				scale 0.095
 				strength 0.005
 		period 1000
@@ -21331,9 +21331,9 @@ system Saquergen
 	trade Plastic 328
 	object
 		sprite star/nova-old
-			normal _menu/normal
+			displacement _menu/displacement
 				scale 0.095
-				strength 0.005
+				strength 0.007
 		period 1000
 	object
 		sprite star/nova-old-core

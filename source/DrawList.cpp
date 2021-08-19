@@ -142,11 +142,11 @@ void DrawList::Push(const Body &body, Point pos, Point blur, double cloak, doubl
 	item.frame = body.GetFrame(step);
 	item.frameCount = body.GetSprite()->Frames();
 	
-	if(body.HasNormal())
+	if(body.HasDisplacement())
 	{
-		item.normal = body.GetNormal()->Texture(isHighDPI);
-		item.normalScale = body.NormalScale();
-		item.normalStrength = body.NormalStrength();
+		item.displacement = body.GetDisplacement()->Texture(isHighDPI);
+		item.displacementScale = body.DisplacementScale();
+		item.displacementStrength = body.DisplacementStrength();
 	}
 	
 	// Get unit vectors in the direction of the object's width and height.

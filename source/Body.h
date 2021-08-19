@@ -40,13 +40,13 @@ public:
 	bool HasSprite() const;
 	// Access the underlying Sprite object.
 	const Sprite *GetSprite() const;
-	// The same as above, but for the normal.
-	bool HasNormal() const;
-	const Sprite *GetNormal() const;
-	// Get the normal's scale.
-	float NormalScale() const;
-	// Get the amount the normal should displace the pixels.
-	float NormalStrength() const;
+	// The same as above, but for the displacement map.
+	bool HasDisplacement() const;
+	const Sprite *GetDisplacement() const;
+	// Get the displacement's scale.
+	float DisplacementScale() const;
+	// Get the amount the displacement map should displace the pixels.
+	float DisplacementStrength() const;
 	// Get the dimensions of the sprite.
 	double Width() const;
 	double Height() const;
@@ -118,9 +118,9 @@ private:
 	int swizzle = 0;
 	
 	// Shader animation parameters.
-	const Sprite *normal = nullptr;
-	float normalScale = 1.f;
-	float normalStrength = .01f;
+	const Sprite *displacement = nullptr;
+	float displacementScale = 1.f;
+	float displacementStrength = .01f;
 	
 	float frameRate = 2.f / 60.f;
 	int delay = 0;

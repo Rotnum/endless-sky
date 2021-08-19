@@ -62,30 +62,30 @@ const Sprite *Body::GetSprite() const
 
 
 
-bool Body::HasNormal() const
+bool Body::HasDisplacement() const
 {
-	return (normal && normal->Frames());
+	return (displacement && displacement->Frames());
 }
 
 
 
-const Sprite *Body::GetNormal() const
+const Sprite *Body::GetDisplacement() const
 {
-	return normal;
+	return displacement;
 }
 
 
 
-float Body::NormalScale() const
+float Body::DisplacementScale() const
 {
-	return normalScale;
+	return displacementScale;
 }
 
 
 
-float Body::NormalStrength() const
+float Body::DisplacementStrength() const
 {
-	return normalStrength;
+	return displacementStrength;
 }
 
 
@@ -238,19 +238,19 @@ void Body::LoadSprite(const DataNode &node)
 		}
 		else if(child.Token(0) == "rewind")
 			rewind = true;
-		else if(child.Token(0) == "normal")
+		else if(child.Token(0) == "displacement")
 		{
 			if(child.Size() >= 2)
-				normal = SpriteSet::Get(child.Token(1));
+				displacement = SpriteSet::Get(child.Token(1));
 			
 			for(const DataNode &grand : child)
 			{
 				if(grand.Token(0) == "source" && grand.Size() >= 2)
-					normal = SpriteSet::Get(grand.Token(1));
+					displacement = SpriteSet::Get(grand.Token(1));
 				else if(grand.Token(0) == "scale" && grand.Size() >= 2)
-					normalScale = grand.Value(1);
+					displacementScale = grand.Value(1);
 				else if(grand.Token(0) == "strength" && grand.Size() >= 2)
-					normalStrength = grand.Value(1);
+					displacementStrength = grand.Value(1);
 				else
 					grand.PrintTrace("Skipping unrecognized attribute:");
 				
